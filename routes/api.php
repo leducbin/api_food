@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 
+use App\Http\Resources\Category as CategoryResource;
+use App\Http\Resources\CategoryCollection;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -23,7 +25,13 @@ Route::post('register', 'Auth\RegisterController@register');
 
 Route::get('test',function()
 {
-	return view('welcome');
+	$category = App\Category::paginate(3);
+    return new CategoryCollection($category);
+});
+Route::get('testjson',function()
+{
+    $category = App\Category::find(1);
+    return new CategoryResource($category);
 });
 Route::group(['middleware' => 'token'], function() {
 	Route::get('category', 'CategoryController@index');
