@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use App\User;
+use Illuminate\Http\Request;
 
 class CheckToken
 {
@@ -17,17 +18,20 @@ class CheckToken
     public function handle($request, Closure $next)
     {
         $user = User::all();
-        foreach ($user as $api_token) {
-            if($request->header("Api-Token") == $api_token->api_token)
+        if(($request->header("Api-Token")) != null)
+        {
+            foreach ($user as $api_token) 
             {
-                return $next($request);
+                if($request->header("Api-Token") == $api_token->api_token)
+                {
+                    return $next($request);
+                }
             }
-            else
-            {
-                return response()->json(['error' => 'Unauthenticated.'], 401);
-            }
+            return response()->json(null, 204);
         }
-
-        
+        else
+        {
+            return response()->json(null, 204);
+        }
     }
 }

@@ -32,4 +32,10 @@ Route::group(['middleware' => 'token'], function() {
     Route::put('category/{category}', 'CategoryController@update');
     Route::delete('category/{category}', 'CategoryController@delete');
 
+    Route::get('category/{category}/food', 'FoodController@index');
+    Route::get('category/{category}/food/{food}', 'FoodController@show');
+    Route::post('category/{category}/food', 'FoodController@store');
+    Route::put('category/{category}/food/{food}', 'FoodController@update');
+    Route::delete('category/{category}/food/{food}', 'FategoryController@delete');
+
 });
